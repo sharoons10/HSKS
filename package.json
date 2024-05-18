@@ -1,46 +1,87 @@
 {
-  "name": "foodi-client",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "@mongodb-js/saslprep",
+  "description": "SASLprep: Stringprep Profile for User Names and Passwords, rfc4013",
+  "keywords": [
+    "sasl",
+    "saslprep",
+    "stringprep",
+    "rfc4013",
+    "4013"
+  ],
+  "author": "Dmitry Tsvettsikh <me@reklatsmasters.com>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/node.js",
+  "bugs": {
+    "url": "https://jira.mongodb.org/projects/COMPASS/issues",
+    "email": "compass@mongodb.com"
+  },
+  "homepage": "https://github.com/mongodb-js/devtools-shared/tree/main/packages/saslprep",
+  "version": "1.1.7",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mongodb-js/devtools-shared.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "exports": {
+    "browser": {
+      "types": "./dist/browser.d.ts",
+      "default": "./dist/browser.js"
+    },
+    "import": {
+      "types": "./dist/node.d.ts",
+      "default": "./dist/.esm-wrapper.mjs"
+    },
+    "require": {
+      "types": "./dist/node.d.ts",
+      "default": "./dist/node.js"
+    }
+  },
+  "types": "./dist/node.d.ts",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "gen-code-points": "ts-node src/generate-code-points.ts src/code-points-data.ts src/code-points-data-browser.ts",
+    "bootstrap": "npm run compile",
+    "prepublishOnly": "npm run compile",
+    "compile": "npm run gen-code-points && tsc -p tsconfig.json && gen-esm-wrapper . ./dist/.esm-wrapper.mjs",
+    "typecheck": "tsc --noEmit",
+    "eslint": "eslint",
+    "prettier": "prettier",
+    "lint": "npm run eslint . && npm run prettier -- --check .",
+    "depcheck": "depcheck",
+    "check": "npm run typecheck && npm run lint && npm run depcheck",
+    "check-ci": "npm run check",
+    "test": "mocha",
+    "test-cov": "nyc -x \"**/*.spec.*\" --reporter=lcov --reporter=text --reporter=html npm run test",
+    "test-watch": "npm run test -- --watch",
+    "test-ci": "npm run test-cov",
+    "reformat": "npm run prettier -- --write ."
   },
   "dependencies": {
-    "@stripe/react-stripe-js": "^2.4.0",
-    "@stripe/stripe-js": "^2.2.2",
-    "@tanstack/react-query": "^5.8.9",
-    "axios": "^1.6.2",
-    "firebase": "^10.12.0",
-    "localforage": "^1.10.0",
-    "match-sorter": "^6.3.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.48.2",
-    "react-icons": "^4.12.0",
-    "react-router-dom": "^6.19.0",
-    "react-slick": "^0.29.0",
-    "recharts": "^2.10.3",
-    "slick-carousel": "^1.8.1",
-    "sort-by": "^0.0.2",
-    "sweetalert2": "^11.6.13",
-    "swiper": "^11.0.4"
+    "sparse-bitfield": "^3.0.3"
   },
   "devDependencies": {
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
-    "@vitejs/plugin-react": "^4.2.0",
-    "autoprefixer": "^10.4.16",
-    "daisyui": "^4.4.2",
-    "eslint": "^8.53.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.4",
-    "postcss": "^8.4.31",
-    "tailwindcss": "^3.3.5",
-    "vite": "^5.0.0"
-  }
+    "@mongodb-js/eslint-config-devtools": "0.9.10",
+    "@mongodb-js/mocha-config-devtools": "^1.0.3",
+    "@mongodb-js/prettier-config-devtools": "^1.0.1",
+    "@mongodb-js/tsconfig-devtools": "^1.0.2",
+    "@types/chai": "^4.2.21",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^17.0.35",
+    "@types/sinon-chai": "^3.2.5",
+    "@types/sparse-bitfield": "^3.0.1",
+    "chai": "^4.3.6",
+    "depcheck": "^1.4.1",
+    "eslint": "^7.25.0",
+    "gen-esm-wrapper": "^1.1.0",
+    "mocha": "^8.4.0",
+    "nyc": "^15.1.0",
+    "prettier": "^2.3.2",
+    "sinon": "^9.2.3",
+    "typescript": "^5.0.4"
+  },
+  "gitHead": "ff425df9ea4651f7c4c24acc30cbf06d06007d4a"
 }
